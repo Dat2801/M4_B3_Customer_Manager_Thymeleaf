@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <head th:replace="/layout :: head">
+    </head>
+<body>
+
+<form method="post">
+    <input type="text" name="search" placeholder="enter your name customer">
+    <input type="submit" value="Search">
+</form>
+<a th:href="@{/customers/create}">Add New Customer</a>
+<h1>Danh sách khách hàng</h1>
+<table id="customers">
+    <thead>
+    <tr>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Address</td>
+        <td>Delete</td>
+        <td>Edit</td>
+    </tr>
+    </thead>
+    <th:block th:each="c:${customerList}">
+        <tr>
+            <td th:text="${c.name}"></td>
+            <td th:text="${c.email}"></td>
+            <td th:text="${c.address}"></td>
+            <td><a th:href="@{'/customers/delete/'+${c.id}}"
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa')">delete</a>
+            </td>
+            <td><a th:href="@{'/customers/edit/'+${c.id}}">edit</a>
+            </td>
+        </tr>
+    </th:block>
+</table>
+<footer th:replace="/layout :: footer"></footer>
+
+</body>
+</html>
