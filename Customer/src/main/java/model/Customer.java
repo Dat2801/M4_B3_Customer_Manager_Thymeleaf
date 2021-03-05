@@ -1,7 +1,14 @@
 package model;
 
+import javax.persistence.*;
+
+@Entity
+@Table
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(nullable = false)
     private String name;
     private String email;
     private String address;
