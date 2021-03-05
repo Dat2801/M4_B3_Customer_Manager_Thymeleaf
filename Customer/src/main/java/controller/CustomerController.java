@@ -13,8 +13,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/customers")
 public class CustomerController {
-@Autowired
-      public ICustomerService customerService;
+    @Autowired
+    public ICustomerService customerService;
 
     @GetMapping("")
     public ModelAndView showList() {
@@ -24,13 +24,13 @@ public class CustomerController {
         return modelAndView;
     }
 
-    @PostMapping("")
-    public ModelAndView search(@RequestParam String search) {
-        ModelAndView modelAndView = new ModelAndView("list");
-        List<Customer> result = customerService.findByName(search);
-        modelAndView.addObject("customerList", result);
-        return modelAndView;
-    }
+//    @PostMapping("")
+//    public ModelAndView search(@RequestParam String search) {
+//        ModelAndView modelAndView = new ModelAndView("list");
+//        List<Customer> result = customerService.findByName(search);
+//        modelAndView.addObject("customerList", result);
+//        return modelAndView;
+//    }
 
 //    @PostMapping("edit/{id}")
 //    public ModelAndView editCustomer(@RequestParam String name, String email, String address, @PathVariable int id) {
@@ -46,30 +46,32 @@ public class CustomerController {
         modelAndView.addObject("customer", customer);
         return modelAndView;
     }
+
     @PostMapping("/edit/{id}")
-    public ModelAndView editCustomer(@PathVariable int id,@ModelAttribute Customer customer){
+    public ModelAndView editCustomer(@PathVariable int id, @ModelAttribute Customer customer) {
         customer.setId(id);
-        customerService.edit(id,customer);
+        customerService.edit(id, customer);
         return new ModelAndView("list", "customerList", customerService.findAll());
     }
 
     @GetMapping("delete/{id}")
     public ModelAndView deleteCustomer(@PathVariable int id){
         ModelAndView modelAndView = new ModelAndView("redirect:/customers");
-        customerService.delete(id);
+        Customer customer = customerService.findById(id);
+        customerService.delete(customer);
         return modelAndView;
     }
 
 
     @GetMapping("/create")
-    public ModelAndView showFormCreate(){
+    public ModelAndView showFormCreate() {
         ModelAndView modelAndView = new ModelAndView("create");
         modelAndView.addObject("c", new Customer());
         return modelAndView;
     }
 
     @PostMapping("/create")
-    public ModelAndView create(@ModelAttribute Customer c){
+    public ModelAndView create(@ModelAttribute Customer c) {
         int id = customerService.findAll().size();
         c.setId(id);
         ModelAndView modelAndView = new ModelAndView("redirect:/customers");
@@ -77,6 +79,11 @@ public class CustomerController {
 //        ModelAndView modelAndView = new ModelAndView("create", "c", new Customer());
 //        modelAndView.addObject("message", "Tao moi thanh cong customer " + c.getName());
         return modelAndView;
-
     }
+
+//    @GetMapping("/delete/{id}")
+//    public ModelAndView deleteCustomer(@PathVariable int id) {
+//        customerService.delete(id);
+//        return new ModelAndView("redirect:/customers");
+//    }
 }
